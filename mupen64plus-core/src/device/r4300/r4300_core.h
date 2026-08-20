@@ -191,7 +191,11 @@ struct r4300_core
     /* ari64 new dynarec hot state. extra_memory is a large scratch buffer the
      * JIT wants near its generated code; it is always reserved so the layout is
      * identical whether or not ari64 is the selected core. */
-    ALIGN(4096, char extra_memory[33554432]);
+    #if defined(__aarch64__)
+        ALIGN(16384, char extra_memory[33554432]);
+    #else
+        ALIGN(4096, char extra_memory[33554432]);
+    #endif
     struct new_dynarec_hot_state new_dynarec_hot_state;
 
     unsigned int emumode;
